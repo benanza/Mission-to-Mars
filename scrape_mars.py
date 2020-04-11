@@ -74,7 +74,13 @@ def scrape():
     table.index.name = ''
     table.columns = ['Value']
 
-    html_table = table.to_html()
+    #render dataframe as html
+    html = table.to_html()
+
+    #write html to file
+    text_file = open("table.html", "w")
+    text_file.write(html)
+    text_file.close()
 
     ## SCRAPE ASTROGEOLOGY.US.GOV FOR MARS PHOTOS ##
     #----------------------------------------------#
@@ -129,7 +135,7 @@ def scrape():
         'news_p': news_p,
         'featured_image_url': featured_image_url,
         'mars_weather': mars_weather,
-        'html_table': html_table,
+        'html_table': html,
         'hemisphere_image_urls': hemisphere_image_urls
     }
 
