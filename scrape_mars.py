@@ -38,7 +38,7 @@ def scrape():
 
     featured_image_url = 'https://www.jpl.nasa.gov' + image_url
 
-    ## SCRAPE TWITTER.COM FOR LATEST MARS WETHER TWEET ##
+    ## SCRAPE TWITTER.COM FOR LATEST MARS WEATHER TWEET ##
     #---------------------------------------------------#
 
     # Scrape the url provided
@@ -51,18 +51,15 @@ def scrape():
     # Used print(soup.prettify()) to observe html
 
    # Identify necessary html to pull data from and remove unnecessary ending text
-    mars_weather = soup.find(class_='js-tweet-text-container').p.text.strip()\
-    .replace(' hPapic.twitter.com/lSCXda8hgu','')
+    mars_weather = (soup.find(class_='js-tweet-text-container').p.text.strip())[:-30]
 
     ## SCRAPE SPACE-FACTS.COM FOR MARS FACTS TABLE ##
     #-----------------------------------------------#
 
+# Convert Mars Data Table to html
+
     # Scrape the url provided
     url = 'https://space-facts.com/mars/'
-    response = requests.get(url)
-
-    # Parse the webpage's html
-    soup = bs(response.text, 'html.parser')
 
     # Use Panda's `read_html` to parse the url
     table = pd.read_html(url)
@@ -77,7 +74,6 @@ def scrape():
     table.index.name = ''
     table.columns = ['Value']
 
-    # Convert table to HTML
     html_table = table.to_html()
 
     ## SCRAPE ASTROGEOLOGY.US.GOV FOR MARS PHOTOS ##
@@ -133,7 +129,7 @@ def scrape():
         'news_p': news_p,
         'featured_image_url': featured_image_url,
         'mars_weather': mars_weather,
-        'html_table': table,
+        'html_table': html_table,
         'hemisphere_image_urls': hemisphere_image_urls
     }
 
