@@ -69,9 +69,9 @@ def scrape():
     table = table[2]
 
     # Reset Index and delete extra row it creates, then rename columns, and display
-    table.set_index(table[0], inplace=True)
-    del table[0]
+    table.set_index('Mars - Earth Comparison', inplace=True)
     table.index.name = ''
+    del table['Earth']
     table.columns = ['Value']
 
     #render dataframe as html
@@ -110,14 +110,14 @@ def scrape():
         soup = bs(response.text, 'html.parser')
         
         image = soup.find('a', href=True, text='Original')
-        href = image['href']
+        href = image["href"]
         
         # Titles were stored as, for example, 'Cerberus Hemisphere Enhanced' so once
         # we scraped them, we removed the last part with the .replace() function
         title = soup.find(class_='title').text.strip().replace(' Enhanced','')
         
         titles.append(title)
-        hrefs.append(href)
+        hrefs.append(f'{href}/full.jpg')
 
     # Create list of dictionaries containing titles and links to each related full res image
 
